@@ -94,10 +94,28 @@ class ProductController extends AbstractController
 
         $category = $entityManager->getRepository(Category::class)->find(2);
 
-        $product = new Product();
+        // dd($category->getId(), $category->getName());
 
-        $product->setCategory($category);
-        dd($category->getProducts());
+        // $product = new Product();
+        // dd($product->setCategory($category));
+        
+        // dd($category);
+        $products = $category->getProducts();
+
+        foreach ($products as $product) {
+            $data[] = [
+                "id" => $product->getId(),
+                "name" => $product->getName(),
+            ];
+        }
+        $response = [
+            "code"=> 200,
+            "message" => "get data",
+            "category" => $category->getName(),
+            "data" => $data
+        ];
+
+        return $this->json($response);
 
     }
 
